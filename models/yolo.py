@@ -269,10 +269,11 @@ class Model(nn.Module):
                 x = y[m.f] if isinstance(m.f, int) else [x if j == -1 else y[j] for j in m.f]  # from earlier layers
             if profile:
                 self._profile_one_layer(m, x, dt)
+            if isinstance(m, nn.Upsample):
+                m.recompute_scale_factor = None
             x = m(x)  # run
             y.append(x if m.i in self.save else None)  # save output
-            if visualize and m.type == 'models.common.C3STR':
-                print(visualize)
+            if visualize:
                 feature_visualization(x, m.type, m.i, save_dir=visualize)
         return x
 
