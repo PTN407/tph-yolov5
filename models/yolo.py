@@ -130,10 +130,13 @@ class SimplePositionalEncoding(nn.Module):
     def __init__(self):
         super().__init__()
         
-    def forward(self, x):
-        xx = torch.unsqueeze((torch.arange(x.shape[1])/x.shape[1]).repeat(x.shape[0],1),2)
-        xy = torch.unsqueeze((torch.arange(x.shape[0])/x.shape[0]).repeat(x.shape[1],1).t(),2)
-        return torch.cat((x,xx,xy),2)
+    def forward(self, x1):
+        res = []
+        for x in x1:
+            xx = torch.unsqueeze((torch.arange(x.shape[1])/x.shape[1]).repeat(x.shape[0],1),2)
+            xy = torch.unsqueeze((torch.arange(x.shape[0])/x.shape[0]).repeat(x.shape[1],1).t(),2)
+            res.append(torch.cat((x,xx,xy),2))
+        return res
         
 class CLLABlock(nn.Module):
     def __init__(self, range=2, ch=256, ch1=128, ch2=256, out=0):
