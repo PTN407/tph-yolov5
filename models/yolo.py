@@ -133,6 +133,7 @@ class SimplePositionalEncoding(nn.Module):
     def forward(self, x1):
         res = []
         for x in x1:
+            x=x.to('cuda:0')
             xx = torch.stack([torch.unsqueeze((torch.arange(xi.shape[1])/xi.shape[1]).repeat(xi.shape[0],1),2) for xi in x]).to('cuda:0')
             xy = torch.stack([torch.unsqueeze((torch.arange(xi.shape[0])/xi.shape[0]).repeat(xi.shape[1],1).t(),2) for xi in x]).to('cuda:0')
             res.append(torch.cat((x,xx,xy),3).to('cuda:0'))
