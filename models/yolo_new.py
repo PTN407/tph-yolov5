@@ -416,7 +416,9 @@ def parse_model(d, ch):  # model_dict, input_channels(3)
                 pass
 
         n = n_ = max(round(n * gd), 1) if n > 1 else n  # depth gain
-        if m in [Conv, GhostConv, Bottleneck, GhostBottleneck, SPP, SPPF, DWConv, MixConv2d, Focus, CrossConv,
+        if len(m.__name__)>=18 and m.__name__[-18:]=='PositionalEncoding':
+            c2 = ch[f[0]]+f[1]
+        elif m in [Conv, GhostConv, Bottleneck, GhostBottleneck, SPP, SPPF, DWConv, MixConv2d, Focus, CrossConv,
                  BottleneckCSP, C3, C3TR, C3STR, C3SPP, C3Ghost, ASPP, CBAM, nn.ConvTranspose2d]:
             c1, c2 = ch[f], args[0]
             if c2 != no:  # if not output
