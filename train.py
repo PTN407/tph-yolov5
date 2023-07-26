@@ -122,7 +122,7 @@ def train(hyp,  # path/to/hyp.yaml or hyp dictionary
         csd = ckpt['model'].float().state_dict()  # checkpoint state_dict as FP32
         csd = intersect_dicts(csd, model.state_dict(), exclude=exclude)  # intersect
         model.load_state_dict(csd, strict=False)  # load
-        summary(model, input_size=(32, 256, 256, 3)) #summary
+        summary(model, input_size=(256, 256, 3)) #summary
         LOGGER.info(f'Transferred {len(csd)}/{len(model.state_dict())} items from {weights}')  # report
     else:
         model = Model(cfg, ch=3, nc=nc, anchors=hyp.get('anchors')).to(device)  # create
