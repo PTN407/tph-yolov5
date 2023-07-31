@@ -126,6 +126,8 @@ class CLLA(nn.Module):
         return (out + x2) / 2
         # return out
 
+import numpy as np
+
 class SimplePositionalEncoding(nn.Module):
     def __init__(self):
         super().__init__()
@@ -137,7 +139,7 @@ class SimplePositionalEncoding(nn.Module):
             xx = torch.stack([torch.unsqueeze((torch.arange(xi.shape[1])/xi.shape[1]).repeat(xi.shape[0],1),2) for xi in x]).to('cuda:0')
             xy = torch.stack([torch.unsqueeze((torch.arange(xi.shape[0])/xi.shape[0]).repeat(xi.shape[1],1).t(),2) for xi in x]).to('cuda:0')
             res.append(torch.cat((x,xx,xy),3).to('cuda:0'))
-        return res
+        return torch.from_numpy(np.array(res)).to('cuda:0')
         
 class CLLABlock(nn.Module):
     def __init__(self, range=2, ch=256, ch1=128, ch2=256, out=0):
