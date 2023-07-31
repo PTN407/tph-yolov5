@@ -151,6 +151,7 @@ class SinusoidalPositionalEncoding(nn.Module):
     def forward(self, x1):
         res = []
         for i in x1:
+            print(i.shape)
             i = i.to('cuda:0')
             res.append(self.p_enc_2d(i).to('cuda:0'))
         return res
