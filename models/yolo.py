@@ -152,7 +152,7 @@ class SinusoidalPositionalEncoding(nn.Module):
         res = []
         for i in x1:
             i = i.to('cuda:0')
-            res.append(torch.stack([self.p_enc_2d(j) for j in i]).to('cuda:0'))
+            res.append(self.p_enc_2d(i).to('cuda:0'))
         return res
         
 class CLLABlock(nn.Module):
