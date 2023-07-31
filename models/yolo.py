@@ -139,18 +139,20 @@ class SimplePositionalEncoding(nn.Module):
             xx = torch.stack([torch.unsqueeze((torch.arange(xi.shape[1])/xi.shape[1]).repeat(xi.shape[0],1),2) for xi in x]).to('cuda:0')
             xy = torch.stack([torch.unsqueeze((torch.arange(xi.shape[0])/xi.shape[0]).repeat(xi.shape[1],1).t(),2) for xi in x]).to('cuda:0')
             res.append(torch.cat((x,xx,xy),3))
-        return torch.from_numpy(np.array(res)).to('cuda:0')
+        return res
 
 from positional_encodings.torch_encodings import PositionalEncoding2D, Summer
+
 class SinusoidalPositionalEncoding(nn.Module):
-    def __init__(self):
+    def __init__(self, channels):
         super().__init__()
+        self.p_enc_2d = Summer(PositionalEncoding2D(channels))
         
     def forward(self, x1):
-        p_enc_3d = Summer(PositionalEncoding2D(10))
         res = []
         for i in x1:
-            res.append(p_enc_3d(i))
+            x = x.to('cuda:0')
+            res.append(torch.stack([self.p_enc_2d(j) for j in i]).to('cuda:0'))
         return res
         
 class CLLABlock(nn.Module):
