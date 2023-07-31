@@ -151,7 +151,9 @@ class SinusoidalPositionalEncoding(nn.Module):
     def forward(self, x1):
         res = []
         for i in x1:
-            print(i.shape)
+            f = open("/content/size.txt", "a")
+            f.write(i.shape)
+            f.close()
             i = i.to('cuda:0')
             res.append(self.p_enc_2d(i).to('cuda:0'))
         return res
