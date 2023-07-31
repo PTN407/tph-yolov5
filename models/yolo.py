@@ -147,7 +147,8 @@ class SinusoidalPositionalEncoding(nn.Module):
         super().__init__()
         
     def forward(self, x1):
-        return Summer(PositionalEncoding2D(x1))
+        p_enc_3d = Summer(PositionalEncoding2D(10))
+        return p_enc_3d(x1)
         
 class CLLABlock(nn.Module):
     def __init__(self, range=2, ch=256, ch1=128, ch2=256, out=0):
