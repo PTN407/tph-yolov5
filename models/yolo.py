@@ -141,21 +141,18 @@ class SimplePositionalEncoding(nn.Module):
             res.append(torch.cat((x,xx,xy),3))
         return res
 
-from positional_encodings.torch_encodings import PositionalEncoding2D, Summer
+from positional_encodings.torch_encodings import PositionalEncodingPermute2D, Summer
 
 class SinusoidalPositionalEncoding(nn.Module):
-    def __init__(self, channels):
+    def __init__(self):
         super().__init__()
-        self.p_enc_2d = Summer(PositionalEncoding2D(channels))
         
     def forward(self, x1):
         res = []
         for i in x1:
-            f = open("/content/size.txt", "a")
-            f.write(' '.join([str(x) for x in list(i.shape)])+'\n')
-            f.close()
+            p_enc_2d = Summer(PositionalEncodingPermute2D(i.shape[1]))
             i = i.to('cuda:0')
-            res.append(self.p_enc_2d(i).to('cuda:0'))
+            res.append(p_enc_2d(i).to('cuda:0'))
         return res
         
 class CLLABlock(nn.Module):
