@@ -138,8 +138,8 @@ class SimplePositionalEncoding(nn.Module):
             x=x.to('cuda:0')
             xx = torch.stack([torch.unsqueeze((torch.arange(xi.shape[1])/xi.shape[1]).repeat(xi.shape[0],1),2) for xi in x]).to('cuda:0')
             xy = torch.stack([torch.unsqueeze((torch.arange(xi.shape[0])/xi.shape[0]).repeat(xi.shape[1],1).t(),2) for xi in x]).to('cuda:0')
-            res.append(torch.cat((x,xx,xy),3).to('cuda:0'))
-        return np.array(res)
+            res.append(torch.cat((x,xx,xy),3))
+        return torch.from_numpy(np.array(res)).to('cuda:0')
 
 from positional_encodings.torch_encodings import PositionalEncoding2D, Summer
 class SinusoidalPositionalEncoding(nn.Module):
