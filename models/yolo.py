@@ -150,14 +150,9 @@ class SinusoidalPositionalEncoding(nn.Module):
     def forward(self, x1):
         res = []
         for i in x1:
-            f = open("/content/demofile2.txt", "a")
-            f.write(' '.join([str(j) for j in list(i.shape)])+'\n')
             p_enc_2d = Summer(PositionalEncodingPermute2D(i.shape[1]))
             i = i.to('cuda:0')
-            res.append(p_enc_2d(i).to('cuda:0'))
-            f.write(' '.join([str(j) for j in list(p_enc_2d(i).shape)])+'\n\n')
-            f.close()
-            
+            res.append(p_enc_2d(i).to('cuda:0'))            
         if res[0].dim==3:
             return torch.stack(res).to('cuda:0')
         else:
