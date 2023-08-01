@@ -29,7 +29,9 @@ try:
     import thop  # for FLOPs computation
 except ImportError:
     thop = None
-device = 1
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 
 class Detect(nn.Module):
     stride = None  # strides computed during build
@@ -152,11 +154,11 @@ class SinusoidalPositionalEncoding(nn.Module):
         for i in x1:
             p_enc_2d = Summer(PositionalEncodingPermute2D(i.shape[1]))
             i = i.to('cuda:0')
-            res.append(p_enc_2d(i).to('cuda:0'))            
+            res.append(p_enc_2d(i).to(device))            
         if res[0].dim==3:
-            return torch.stack(res).to('cuda:0')
+            return torch.stack(res).to(device)
         else:
-            return res[0].to('cuda:0')
+            return res[0].to(device)
         
 class CLLABlock(nn.Module):
     def __init__(self, range=2, ch=256, ch1=128, ch2=256, out=0):
