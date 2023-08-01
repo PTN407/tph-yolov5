@@ -46,7 +46,7 @@ head:
    [-1, 1, C3STR, [1024, False]],  # 23 (P5/32-large)
 
    [[-1,-1], 1, SinusoidalPositionalEncoding, []],
-   [-1, 1, Conv, [512, 4, 4]],
+   [-1, 1, Conv, [512, 3, 3]],
    
    [[2, 17, 20, 23], 1, CLLADetect, [nc, anchors]],  # Detect(P3, P4, P5)
   ]
