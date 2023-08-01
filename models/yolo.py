@@ -153,7 +153,10 @@ class SinusoidalPositionalEncoding(nn.Module):
             p_enc_2d = Summer(PositionalEncodingPermute2D(i.shape[1]))
             i = i.to('cuda:0')
             res.append(p_enc_2d(i).to('cuda:0'))
-        return torch.stack(res).to('cuda:0')
+        if res[0].dim==3:
+            return torch.stack(res).to('cuda:0')
+        else:
+            return res[0]
         
 class CLLABlock(nn.Module):
     def __init__(self, range=2, ch=256, ch1=128, ch2=256, out=0):
