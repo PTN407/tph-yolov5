@@ -156,7 +156,7 @@ class SinusoidalPositionalEncoding(nn.Module):
         if res[0].dim==3:
             return torch.stack(res).to('cuda:0')
         else:
-            return res[0]
+            return res[0].to('cuda:0')
         
 class CLLABlock(nn.Module):
     def __init__(self, range=2, ch=256, ch1=128, ch2=256, out=0):
